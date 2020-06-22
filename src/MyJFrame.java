@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import panel.GamePanel;
+import panel.ImageRepo;
 import panel.LoadingPanel;
 
 public class MyJFrame extends JFrame{
@@ -18,9 +19,12 @@ public class MyJFrame extends JFrame{
 	
 	public MyJFrame() {
 		// TODO Auto-generated constructor stub
+		setIconImage(ImageRepo.charmanderImgBig);
+		setTitle("MinesKY-Sweeper");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(screenSize);
+		setUndecorated(true);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -30,16 +34,18 @@ public class MyJFrame extends JFrame{
 		
 		panel.add(lp,"loading");
 		panel.add(gp, "game");
-		cl.show(panel, "loading");
+		cl.show(panel, "game");
 		setVisible(true);
-		if(lp.processLoading()) {
-			cl.show(panel, "game");
-		}
+//		if(lp.processLoading()) {
+//			cl.show(panel, "game");
+//		}
+		
 		
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		ImageRepo.genImage();
 		new MyJFrame();
 	}
 

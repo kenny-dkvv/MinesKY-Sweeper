@@ -29,7 +29,7 @@ public class MineSquare extends JButton{
 		// TODO Auto-generated constructor stub	
 		setFont(font);
 		setFocusPainted(false);
-		setIcon(new ImageIcon(GamePanel.charmanderImg));
+		setIcon(new ImageIcon(ImageRepo.charmanderImg));
 	}
 	
 	public MineSquare(ImageIcon mineIcon) {
@@ -115,7 +115,7 @@ public class MineSquare extends JButton{
 		}
 		else {
 			setBackground(Color.RED);
-			setDisabledIcon(new ImageIcon(GamePanel.mineImg));
+			setDisabledIcon(new ImageIcon(ImageRepo.mineImg));
 		}
 	}
 

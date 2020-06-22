@@ -35,7 +35,8 @@ public class GamePanel extends JPanel
 {
 	//Difficulty
 	JPanel difficultyPanel = new JPanel(new BorderLayout());
-	JPanel configPanel = new JPanel(new GridLayout(3, 2, 5, 5));
+	JPanel configPanel = new JPanel(new BorderLayout());
+	JPanel spinnerPanel = new JPanel(new GridLayout(3, 2, 5, 5));
 	int width = 10;
 	int height = 10;
 	int minesCountPercentage = 10;
@@ -57,12 +58,7 @@ public class GamePanel extends JPanel
 	int[] openDirY = new int[] {-1, -1, -1, 0, 1, 1, 1, 0};
 	Random random = new Random();
 	
-	static Image mineImg;
-	static ImageIcon mineIcon;
-	static Image charmanderImg;
-	static ImageIcon charmanderIcon;
-	static Image flagImg;
-	static ImageIcon flagIcon;
+	
 	
 	void updateInfo() {
 		panelLeft.setText(String.format("Unopened: %d", panelCount));
@@ -174,10 +170,10 @@ public class GamePanel extends JPanel
 						// TODO Auto-generated method stub
 						if(temp.activated == false) {
 							if(SwingUtilities.isRightMouseButton(e)) {
-								if(temp.getIcon() == charmanderIcon) {
-									temp.setIcon(flagIcon);
+								if(temp.getIcon() == ImageRepo.charmanderIcon) {
+									temp.setIcon(ImageRepo.flagIcon);
 								}
-								else temp.setIcon(charmanderIcon);
+								else temp.setIcon(ImageRepo.charmanderIcon);
 							}
 							else {
 								temp.setActivated(true);
@@ -187,7 +183,7 @@ public class GamePanel extends JPanel
 									for (MineSquare mine : mines) {
 										mine.setActivated(true);
 									}
-									JOptionPane.showMessageDialog(null, "You Lose !", "Game Over", JOptionPane.INFORMATION_MESSAGE, mineIcon);
+									JOptionPane.showMessageDialog(null, "You Lose !", "Game Over", JOptionPane.INFORMATION_MESSAGE, ImageRepo.mineIcon);
 									setMinePanel();
 								}
 								else if(SwingUtilities.isLeftMouseButton(e))
@@ -195,7 +191,7 @@ public class GamePanel extends JPanel
 									openSpace(x, y);
 									updateInfo();
 									if(panelCount == mines.size()) {
-										JOptionPane.showMessageDialog(null, "You Win :D !", "Game Over", JOptionPane.INFORMATION_MESSAGE, charmanderIcon);
+										JOptionPane.showMessageDialog(null, "You Win :D !", "Game Over", JOptionPane.INFORMATION_MESSAGE, ImageRepo.charmanderIcon);
 										setMinePanel();
 									}
 								}
@@ -256,18 +252,7 @@ public class GamePanel extends JPanel
 	void initMinePanel() {
 		minePanel.setLayout(gridMine);
 		minePanel.setBackground(Color.BLACK);
-		try {
-			mineImg = ImageIO.read(new File("./mine.png"));
-			charmanderImg = ImageIO.read(new File("./charmander_face.png"));
-			flagImg = ImageIO.read(new File("./flag.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-		mineIcon = new ImageIcon(mineImg);
-		flagIcon = new ImageIcon(flagImg);
-		charmanderIcon = new ImageIcon(charmanderImg);
 		setMinePanel();
 		
 	}
@@ -370,7 +355,6 @@ public class GamePanel extends JPanel
 		JPanel test6 = new JPanel();
 		test6.add(bombSpinner);
 		
-		configPanel.setBackground(Color.BLACK);
 		test1.setBackground(Color.BLACK);
 		test2.setBackground(Color.BLACK);
 		test3.setBackground(Color.BLACK);
@@ -378,12 +362,40 @@ public class GamePanel extends JPanel
 		test5.setBackground(Color.BLACK);
 		test6.setBackground(Color.BLACK);
 		
-		configPanel.add(test1);
-		configPanel.add(test2);
-		configPanel.add(test3);
-		configPanel.add(test4);
-		configPanel.add(test5);
-		configPanel.add(test6);
+		spinnerPanel.setBackground(Color.BLACK);
+		spinnerPanel.add(test1);
+		spinnerPanel.add(test2);
+		spinnerPanel.add(test3);
+		spinnerPanel.add(test4);
+		spinnerPanel.add(test5);
+		spinnerPanel.add(test6);
+		
+		JPanel buttonBuffer = new JPanel();
+		JButton restart = new JButton("Restart", ImageRepo.charmanderIcon);
+		restart.setBackground(Color.BLACK);
+		restart.setFocusable(false);
+		restart.setFont(fontBig);
+		restart.setForeground(Color.WHITE);
+		restart.setFocusPainted(false);
+		restart.setBorder(BorderFactory.createEmptyBorder());
+		restart.setOpaque(false);
+		
+		restart.addActionListener(new ActionListener() {
+				
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				setMinePanel();
+			}
+		});
+		
+		buttonBuffer.add(restart);
+		buttonBuffer.setBackground(Color.BLACK);
+		
+		configPanel.setBackground(Color.BLACK);
+		configPanel.add(spinnerPanel);
+		configPanel.add(buttonBuffer, BorderLayout.SOUTH);
+		
 		
 	}
 	 public GamePanel() {
