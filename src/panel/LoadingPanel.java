@@ -99,7 +99,7 @@ public class LoadingPanel extends JPanel{
 	{
 		while(bar.getValue() < 100) {
 			try {
-				Thread.sleep(100);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

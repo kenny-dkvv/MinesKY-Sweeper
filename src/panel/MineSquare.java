@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.plaf.metal.MetalButtonUI;
@@ -29,7 +30,7 @@ public class MineSquare extends JButton{
 		// TODO Auto-generated constructor stub	
 		setFont(font);
 		setFocusPainted(false);
-		setIcon(new ImageIcon(ImageRepo.charmanderImg));
+		
 	}
 	
 	public MineSquare(ImageIcon mineIcon) {
@@ -37,6 +38,18 @@ public class MineSquare extends JButton{
 		super(mineIcon);
 	}
 
+	public void reset() {
+		activated = false;
+		isBomb = false;
+		minesNearby = 0;
+		setBackground(Color.BLACK);
+		setText("");
+		setEnabled(true);
+		setDisabledIcon(null);
+		setIcon(ImageRepo.charmanderIcon);
+		setBorder(BorderFactory.createLineBorder(Color.WHITE, 1, false));
+	}
+	
 	public void setActivated(boolean bool) {
 		activated = bool;
 		setEnabled(false);

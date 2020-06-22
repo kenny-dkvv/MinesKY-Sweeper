@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -30,6 +32,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import Frame.MyJFrame;
 
 public class GamePanel extends JPanel
 {
@@ -139,24 +143,54 @@ public class GamePanel extends JPanel
 		}
 	}
 	
-	void setMinePanel() 
+	public void setMinePanel() 
 	{
+		for(int i = 0; i < height; i++) {
+			for(int j = 0; j < width;j++) {
+				mineField[i][j].reset();
+			}
+		}
 		gridMine.setColumns(width);
 		gridMine.setRows(height);
 		panelCount = height * width;
-		minePanel.removeAll();
 		minePanel.revalidate();
 		minePanel.repaint();
 		
+		int mineCount = width*height*minesCountPercentage/100;
+		
+		mines.clear();
+		
+		while(mines.size() < mineCount) {
+			for(int i = 0; i < mineCount;i++) 
+			{
+				int x = random.nextInt(width);
+				int y = random.nextInt(height);
+				mineField[y][x].isBomb = true;
+				mines.add(mineField[y][x]);
+			}
+			
+			LinkedHashSet<MineSquare> minesSet = new LinkedHashSet<MineSquare>(mines);
+			mines.clear();
+			mines.addAll(minesSet);
+		}
+		
+		while(mines.size() > mineCount) {
+			MineSquare temp = mines.remove(0);
+			temp.isBomb = false;
+		}
+		
+		updateInfo();
+	}
+	
+	void initMinePanel() {
+		minePanel.setLayout(gridMine);
+		minePanel.setBackground(Color.BLACK);
 		for(int i = 0; i < height; i++) {
 			for(int j = 0; j < width;j++) {
 				mineField[i][j] = new MineSquare();
-				mineField[i][j].setBackground(Color.BLACK);
 				final MineSquare temp = mineField[i][j];
 				final int x = j;
 				final int y = i;
-				
-				temp.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1, false));
 				
 				temp.addMouseListener(new MouseListener() {
 					
@@ -197,6 +231,7 @@ public class GamePanel extends JPanel
 								}
 							}
 						}
+						MyJFrame.frame.requestFocusInWindow();
 					}
 					
 					@Override
@@ -221,38 +256,6 @@ public class GamePanel extends JPanel
 				minePanel.add(mineField[i][j]);
 			}
 		}
-		
-		int mineCount = width*height*minesCountPercentage/100;
-		
-		mines.clear();
-		
-		while(mines.size() < mineCount) {
-			for(int i = 0; i < mineCount;i++) 
-			{
-				int x = random.nextInt(width);
-				int y = random.nextInt(height);
-				mineField[y][x].isBomb = true;
-				mines.add(mineField[y][x]);
-			}
-			
-			LinkedHashSet<MineSquare> minesSet = new LinkedHashSet<MineSquare>(mines);
-			mines.clear();
-			mines.addAll(minesSet);
-		}
-		
-		while(mines.size() > mineCount) {
-			MineSquare temp = mines.remove(0);
-			temp.isBomb = false;
-		}
-		
-		updateInfo();
-		
-	}
-	
-	void initMinePanel() {
-		minePanel.setLayout(gridMine);
-		minePanel.setBackground(Color.BLACK);
-		
 		setMinePanel();
 		
 	}
@@ -395,13 +398,14 @@ public class GamePanel extends JPanel
 		configPanel.setBackground(Color.BLACK);
 		configPanel.add(spinnerPanel);
 		configPanel.add(buttonBuffer, BorderLayout.SOUTH);
-		
-		
 	}
+	
+	
 	 public GamePanel() {
 		// TODO Auto-generated constructor stub
 		 setLayout(new BorderLayout());
 		 add(difficultyPanel, BorderLayout.EAST);
+		 
 		 initDifficultyPanel();
 		 add(minePanel, BorderLayout.CENTER);
 		 initMinePanel();
