@@ -34,11 +34,11 @@ public class MyJFrame extends JFrame{
 		
 		panel.add(lp,"loading");
 		panel.add(gp, "game");
-		cl.show(panel, "game");
+		cl.show(panel, "loading");
 		setVisible(true);
-//		if(lp.processLoading()) {
-//			cl.show(panel, "game");
-//		}
+		if(lp.processLoading()) {
+			cl.show(panel, "game");
+		}
 		
 		
 	}
