@@ -145,11 +145,14 @@ public class GamePanel extends JPanel
 	
 	public void setMinePanel() 
 	{
+		minePanel.removeAll();
 		for(int i = 0; i < height; i++) {
 			for(int j = 0; j < width;j++) {
 				mineField[i][j].reset();
+				minePanel.add(mineField[i][j]);
 			}
 		}
+		
 		gridMine.setColumns(width);
 		gridMine.setRows(height);
 		panelCount = height * width;
@@ -185,8 +188,8 @@ public class GamePanel extends JPanel
 	void initMinePanel() {
 		minePanel.setLayout(gridMine);
 		minePanel.setBackground(Color.BLACK);
-		for(int i = 0; i < height; i++) {
-			for(int j = 0; j < width;j++) {
+		for(int i = 0; i < 100; i++) {
+			for(int j = 0; j < 100;j++) {
 				mineField[i][j] = new MineSquare();
 				final MineSquare temp = mineField[i][j];
 				final int x = j;
@@ -252,8 +255,6 @@ public class GamePanel extends JPanel
 						
 					}
 				});
-				
-				minePanel.add(mineField[i][j]);
 			}
 		}
 		setMinePanel();
@@ -404,11 +405,10 @@ public class GamePanel extends JPanel
 	 public GamePanel() {
 		// TODO Auto-generated constructor stub
 		 setLayout(new BorderLayout());
-		 add(difficultyPanel, BorderLayout.EAST);
-		 
-		 initDifficultyPanel();
-		 add(minePanel, BorderLayout.CENTER);
 		 initMinePanel();
+		 add(minePanel, BorderLayout.CENTER);		 
+		 initDifficultyPanel();
+		 add(difficultyPanel, BorderLayout.EAST);
 		 add(titlePanel, BorderLayout.NORTH);	
 		 initTitlePanel();
 	}
